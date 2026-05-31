@@ -15,3 +15,8 @@ gem 'net-sftp'
 gem 'ed25519'
 gem 'bcrypt_pbkdf'
 gem 'pry'
+
+group :test do
+  gem 'rspec'
+  gem 'rack-test'
+end

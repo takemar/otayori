@@ -7,6 +7,7 @@ require 'hamlit'
 require 'active_support/core_ext/time'
 require 'active_support/ordered_options'
 require_relative 'filesystem_sftp'
+require_relative 'filesystem_local'
 require_relative 'models'
 require_relative 'response_helper'
 require_relative 'webdir'
@@ -24,8 +25,10 @@ module TakemaroBlog; class Application < Sinatra::Application
   include TakemaroBlog
   include TakemaroBlog::ResponseHelper
 
-  use Rack::Auth::Digest::MD5, realm: '', opaque: '', passwords_hashed: true do |username|
-    config.auth[username]
+  unless ENV['APP_ENV'] == 'test'
+    use Rack::Auth::Digest::MD5, realm: '', opaque: '', passwords_hashed: true do |username|
+      config.auth[username]
+    end
   end
 
   configure do
@@ -82,10 +85,15 @@ module TakemaroBlog; class Application < Sinatra::Application
   end
 
   private def with_sftp
-    sftp = Filesystem::SFTP.new config, self
-    result = yield sftp
-    sftp.close
-    result
+    if ENV['APP_ENV'] == 'test'
+      fs = Filesystem::Local.new(File.expand_path('../../tmp/webdir_test', __FILE__), self)
+      yield fs
+    else
+      sftp = Filesystem::SFTP.new config, self
+      result = yield sftp
+      sftp.close
+      result
+    end
   end
 
   def post

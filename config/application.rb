@@ -4,7 +4,8 @@ require 'active_record'
 require 'active_support/core_ext/time'
 
 ActiveRecord::Base.time_zone_aware_attributes = true
-ActiveRecord::Base.default_timezone = :utc
+ActiveRecord.default_timezone = :utc
 Time.zone = 'Asia/Tokyo'
 
-require_relative 'environment'
+env_file = ENV['APP_ENV'] == 'test' ? 'environment.example' : 'environment'
+require_relative env_file
