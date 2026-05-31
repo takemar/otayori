@@ -25,10 +25,15 @@ task :boot do
 end
 
 task rebuild: :boot do
+  output_dir = ENV['OUTPUT_DIR']
   TakemaroBlog::Application.new!.instance_eval do
-    with_sftp do |sftp|
-      webdir = TakemaroBlog::Webdir.new(self, sftp)
-      webdir.rebuild_all
+    if output_dir
+      fs = TakemaroBlog::Filesystem::Local.new(File.expand_path(output_dir), self)
+      TakemaroBlog::Webdir.new(self, fs).rebuild_all
+    else
+      with_sftp do |sftp|
+        TakemaroBlog::Webdir.new(self, sftp).rebuild_all
+      end
     end
   end
 end
