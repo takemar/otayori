@@ -1,5 +1,20 @@
 /.bundle
 /vendor
 
-/db
+/db/*.sqlite3
 /files
+
+/config/environment.rb
+
+# personal dotfiles / IDE / tools
+/.bash_profile
+/.bashrc
+/.profile
+/.zprofile
+/.zshrc
+/.gitconfig
+/.gitmodules
+/.ripgreprc
+/.mcp.json
+/.idea
+/.vscode

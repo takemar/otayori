@@ -13,7 +13,7 @@ TakemaroBlog.config.merge!(
   blog_meta_title: 'My Example Blog',
   blog_share_title: 'My Example Blog',
   blog_root_meta_title: 'My Example Blog',
-  blog_root_share_title: 'My Example Blog,
+  blog_root_share_title: 'My Example Blog',
   blog_domain: 'blog.example.com',
   blog_scheme: 'https',
 )
