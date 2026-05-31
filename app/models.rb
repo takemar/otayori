@@ -52,9 +52,9 @@ class TakemaroBlog::Post < ActiveRecord::Base
 
   private def prev_succ(which, tag)
     unless tag
-      self.class.includes(:tags, :assets)
+      self.class.preload(:tags, :assets)
     else
-      self.class.includes(:tags, :assets).joins(:tags).where('tags.id': tag.id)
+      self.class.preload(:tags, :assets).joins(:tags).where('tags.id': tag.id)
     end
       .where("posts.created_at #{
         case which
