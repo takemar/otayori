@@ -24,6 +24,15 @@ task :boot do
   require_relative 'app/boot'
 end
 
+task rebuild: :boot do
+  TakemaroBlog::Application.new!.instance_eval do
+    with_sftp do |sftp|
+      webdir = TakemaroBlog::Webdir.new(self, sftp)
+      webdir.rebuild_all
+    end
+  end
+end
+
 task console: :boot do
   require 'pry'
   TakemaroBlog::Application.new!.instance_eval do

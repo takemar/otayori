@@ -18,6 +18,15 @@ class TakemaroBlog::Webdir
     @fs = fs
   end
 
+  def rebuild_all
+    Post.order(:created_at).each do |post|
+      add_post(post)
+    end
+    mkfile View::Tags.new(tag_years_html)
+    mkfile View::Archive.new(years_html, months_html)
+    mkfile View::Root.new
+  end
+
   def add_post(post)
     time = post.created_at
     years_dir.add_or_update time
