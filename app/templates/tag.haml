@@ -3,7 +3,7 @@
   の最近の投稿
 .hlinks
   アーカイブ：
-  - (Post.oldest.created_at.year .. Post.latest.created_at.year).each do |year|
+  - (years.min .. years.max).each do |year|
     - if years.include? year
       %a{href: url("tags/#{ slug }/#{ year }")} #{ year }年
     - else
