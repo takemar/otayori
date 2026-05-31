@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 TakemaroBlog.config.merge!(
+  filesystem: :local,
+  local_output_dir: File.expand_path('../../tmp/webdir_test', __FILE__),
   auth: {
     # Rack::Auth::Digest::MD5 に渡される
     'username' => '0665fcae289dda92188f71c03828220b'

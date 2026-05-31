@@ -5,6 +5,8 @@
 /files
 
 /config/environment.rb
+/config/environment.*.rb
+!/config/environment.example.rb
 
 # personal dotfiles / IDE / tools
 /.bash_profile

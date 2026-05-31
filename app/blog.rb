@@ -68,8 +68,8 @@ module TakemaroBlog; class Application < Sinatra::Application
     end
 
     post '/create' do
-      with_sftp do |sftp|
-        webdir = Webdir.new(self, sftp)
+      with_filesystem do |fs|
+        webdir = Webdir.new(self, fs)
         webdir.add_post(post)
       end
       redirect "#{ config.blog_scheme }://#{ config.blog_domain }/#{ post.path }"
@@ -84,12 +84,11 @@ module TakemaroBlog; class Application < Sinatra::Application
     TakemaroBlog.config
   end
 
-  private def with_sftp
-    if ENV['APP_ENV'] == 'test'
-      fs = Filesystem::Local.new(File.expand_path('../../tmp/webdir_test', __FILE__), self)
-      yield fs
+  private def with_filesystem
+    if config.filesystem == :local
+      yield Filesystem::Local.new(config.local_output_dir, self)
     else
-      sftp = Filesystem::SFTP.new config, self
+      sftp = Filesystem::SFTP.new(config, self)
       result = yield sftp
       sftp.close
       result

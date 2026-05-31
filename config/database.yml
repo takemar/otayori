@@ -1,6 +1,11 @@
 default:
   adapter: sqlite3
   database: db/main.sqlite3
+
+staging:
+  adapter: sqlite3
+  database: db/main.sqlite3
+
 test:
   adapter: sqlite3
   database: ":memory:"
