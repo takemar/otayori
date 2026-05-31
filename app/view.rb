@@ -93,7 +93,9 @@ module TakemaroBlog; module View
     end
 
     def archived_tags
-      @archived_tags ||= @webdir.tags_by_year[year].to_a
+      @archived_tags ||= Tag.joins(:posts)
+        .where(posts: { created_at: Time.zone.local(year).all_year })
+        .pluck(:slug)
     end
 
     def title
